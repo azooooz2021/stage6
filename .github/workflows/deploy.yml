@@ -20,9 +20,9 @@ jobs:
           username: ${{ secrets.VM_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /path/to/your/project
+            cd /home/azureuser/stage6
             git pull origin main
-            source venv/bin/activate  # Activate virtual env if using one
+            source env/bin/activate  # Activate virtual env if using one
             pip install -r requirements.txt
             sudo systemctl restart chatbot-backend
             sudo systemctl restart chatbot-frontend
