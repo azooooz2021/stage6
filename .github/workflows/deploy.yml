@@ -3,19 +3,27 @@ name: Deploy to Azure VM
 on:
   push:
     branches:
-      - master
+      - master  # Adjust if your branch is different
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: SSH into VM and run deploy script
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: SSH into Azure VM and Deploy
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.VM_IP }}
-          username: azureuser
-          key: ${{ secrets.VM_SSH_KEY }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/azureuser/stage6
-            ./deploy.sh
+            cd /path/to/your/project
+            git pull origin main
+            source venv/bin/activate  # Activate virtual env if using one
+            pip install -r requirements.txt
+            sudo systemctl restart chatbot-backend
+            sudo systemctl restart chatbot-frontend
+            
